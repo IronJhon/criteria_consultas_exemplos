@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import com.br.main.dto.UsuarioDTO;
 import com.br.main.model.Usuario;
 
 public class Main {
@@ -21,12 +22,61 @@ public class Main {
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 				
 		//consultandoUsuarios(entityManager);
-		escolhendoRetorno(entityManager);
+		//escolhendoRetorno(entityManager);
+		//retornandoProjecoes(entityManager);
+		findByCpf("09104537488", entityManager);
 		
 		entityManager.close();
 		entityManagerFactory.close();
 	}
 
+	private static void findByCpf(String cpf, EntityManager entityManager) {
+		// TODO Auto-generated method stub
+		
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Usuario> criteriaQuery = builder.createQuery(Usuario.class);
+		Root<Usuario> root = criteriaQuery.from(Usuario.class);
+		criteriaQuery.select(root);
+		criteriaQuery.where(builder.equal(root.get("cpf"), cpf));
+		
+		TypedQuery<Usuario> typedQuery = entityManager.createQuery(criteriaQuery);
+		Usuario user = typedQuery.getSingleResult();
+		
+	 System.out.println(user.getNome());
+		
+	}
+
+	private static void retornandoProjecoes(EntityManager entityManager) {
+		// TODO Auto-generated method stub
+		
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		
+		/////////////////EXEMPLO 1/////////////////////////////////////
+		/*
+		 * CriteriaQuery<Object[]> criteriaQuery = builder.createQuery(Object[].class);
+		 * Root<Usuario> root = criteriaQuery.from(Usuario.class);
+		 * criteriaQuery.multiselect(root.get("id"), root.get("login"),
+		 * root.get("nome"));
+		 * 
+		 * TypedQuery<Object[]> typedQuery = entityManager.createQuery(criteriaQuery);
+		 * List<Object[]> list = typedQuery.getResultList(); list.forEach(dados ->
+		 * System.out.println(String.format("%s, %s, %s", dados)));
+		 */
+				
+		/////////////////EXEMPLO 2/////////////////////////////////////
+		CriteriaQuery<UsuarioDTO> criteriaQuery = builder.createQuery(UsuarioDTO.class);
+		Root<Usuario> root = criteriaQuery.from(Usuario.class);
+		criteriaQuery.select(builder.construct(UsuarioDTO.class, root.get("id"), root.get("login"),
+		  root.get("nome")));
+		
+		TypedQuery<UsuarioDTO> typedQuery = entityManager.createQuery(criteriaQuery);
+		List<UsuarioDTO> list = typedQuery.getResultList();
+		
+		list.forEach(d -> System.out.println(d.getId() + "|<>|<>| " + d.getNome() + "|<>|<>| " + d.getLogin()));
+		
+		
+	}
+  
 	private static void escolhendoRetorno(EntityManager entityManager) {
 		// TODO Auto-generated method stub
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();

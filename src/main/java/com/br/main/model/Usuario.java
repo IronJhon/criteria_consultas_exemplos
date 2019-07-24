@@ -12,16 +12,34 @@ public class Usuario {
 
     @Override
 	public String toString() {
-		return "Usuario [id=" + id + ", login=" + login + ", senha=" + senha + ", nome=" + nome + ", ultimoAcesso="
+		return "Usuario [id=" + id + ", login=" + login + ", cpf=" + cpf + ", nome=" + nome + ", ultimoAcesso="
 				+ ultimoAcesso + ", dominio=" + dominio + ", configuracao=" + configuracao + "]";
 	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public Configuracao getConfiguracao() {
+		return configuracao;
+	}
+
+	public void setConfiguracao(Configuracao configuracao) {
+		this.configuracao = configuracao;
+	}
+
+	
 
 	@Id
     private Integer id;
 
     private String login;
 
-    private String senha;
+    private String cpf;
 
     private String nome;
 
@@ -49,13 +67,7 @@ public class Usuario {
         this.login = login;
     }
 
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
+  
 
     public String getNome() {
         return nome;
