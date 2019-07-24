@@ -25,10 +25,25 @@ public class Main {
 		// escolhendoRetorno(entityManager);
 		// retornandoProjecoes(entityManager);
 		// findByCpf("09104537488", entityManager);
-		orderBy("cpf", entityManager); // Parameters type String: nome e cpf... 
+		//orderBy("cpf", entityManager); // Parameters type String: nome, login e cpf
+		pagination(0, 9, entityManager);
 
 		entityManager.close();
 		entityManagerFactory.close();
+	}
+
+	private static void pagination(int firstResult, int maxResults, EntityManager entityManager) {
+		// TODO Auto-generated method stub
+		
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+		CriteriaQuery<Usuario> query = builder.createQuery(Usuario.class);
+		Root<Usuario> root = query.from(Usuario.class);
+
+		query.select(root);
+		TypedQuery<Usuario> typedQuery = entityManager.createQuery(query);
+		List<Usuario> resultList = typedQuery.getResultList();
+		resultList.forEach(u -> System.out.println(u.getNome() + "||| " + u.getLogin()));
 	}
 
 	private static void orderBy(String ordeBy, EntityManager entityManager) {
