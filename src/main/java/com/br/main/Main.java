@@ -32,7 +32,7 @@ public class Main {
 		entityManagerFactory.close();
 	}
 
-	private static void pagination(int firstResult, int maxResults, EntityManager entityManager) {
+	private static void pagination(int firstResult, int maxResult, EntityManager entityManager) {
 		// TODO Auto-generated method stub
 		
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -41,7 +41,10 @@ public class Main {
 		Root<Usuario> root = query.from(Usuario.class);
 
 		query.select(root);
-		TypedQuery<Usuario> typedQuery = entityManager.createQuery(query);
+		TypedQuery<Usuario> typedQuery = entityManager.createQuery(query)
+				.setFirstResult(firstResult)
+				.setMaxResults(maxResult);
+		
 		List<Usuario> resultList = typedQuery.getResultList();
 		resultList.forEach(u -> System.out.println(u.getNome() + "||| " + u.getLogin()));
 	}
