@@ -25,8 +25,8 @@ public class Main {
 		// escolhendoRetorno(entityManager);
 		// retornandoProjecoes(entityManager);
 		// findByCpf("09104537488", entityManager);
-		//orderBy("cpf", entityManager); // Parameters type String: nome, login e cpf
-		pagination(0, 9, entityManager);
+		//orderBy("cpf", entityManager); // Parameters type String: nome, login and cpf
+		pagination(0, 9, entityManager); // Parameters type int: firstResult and maxResult
 
 		entityManager.close();
 		entityManagerFactory.close();
@@ -42,8 +42,8 @@ public class Main {
 
 		query.select(root);
 		TypedQuery<Usuario> typedQuery = entityManager.createQuery(query)
-				.setFirstResult(firstResult)
-				.setMaxResults(maxResult);
+				.setFirstResult(firstResult) // first = (firstResult - 1) * maxResult;
+				.setMaxResults(maxResult);    
 		
 		List<Usuario> resultList = typedQuery.getResultList();
 		resultList.forEach(u -> System.out.println(u.getNome() + "||| " + u.getLogin()));
