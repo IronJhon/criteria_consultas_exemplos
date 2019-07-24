@@ -24,7 +24,8 @@ public class Main {
 		//consultandoUsuarios(entityManager);
 		//escolhendoRetorno(entityManager);
 		//retornandoProjecoes(entityManager);
-		findByCpf("09104537488", entityManager);
+		//findByCpf("09104537488", entityManager);
+		orderBy(entityManager);
 		
 		entityManager.close();
 		entityManagerFactory.close();
